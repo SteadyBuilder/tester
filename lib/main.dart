@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'providers/counter_provider.dart';
-import 'providers/theme_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/counter_screen.dart';
+import 'screens/new_screen.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-            create: (context) => CounterProvider()), // Provider 등록
-        ChangeNotifierProvider(create: (context) => ThemeProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+      const ProviderScope(child: MyApp())); // Riverpod 사용을 위한 ProviderScope 추가
 }
 
 class MyApp extends StatelessWidget {
@@ -23,26 +14,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Provider Counter App",
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light, // 🌞 라이트 모드
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.light,
+        debugShowCheckedModeBanner: false,
+        title: "Riverpod Counter App",
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blue,
+          ),
         ),
-      ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark, // 🌙 다크 모드
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal,
-          brightness: Brightness.dark,
-        ),
-      ),
-      themeMode: context.watch<ThemeProvider>().themeMode,
-      home: const CounterScreen(),
-    );
+
+        // 초기 화면 설정
+        initialRoute: '/',
+        // MaterialPageRoute를 사용한 라우팅 설정
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/':
+              return MaterialPageRoute(
+                  builder: (context) => const CounterScreen());
+            case '/new':
+              return MaterialPageRoute(builder: (context) => const NewScreen());
+            default:
+              return MaterialPageRoute(
+                builder: (context) => const Scaffold(
+                  body: Center(child: Text("404 Not Found")),
+                ),
+              );
+          }
+        });
   }
 }
