@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/todo_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
-  runApp(const ProviderScope(
-      child: MyApp())); // ✅ Riverpod 사용을 위한 ProviderScope 추가
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,20 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "SteadyBuilder's App",
-      theme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.light,
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.blue, brightness: Brightness.light)),
-      darkTheme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.teal, brightness: Brightness.dark)),
-      themeMode: ThemeMode.system,
-      home: const TodoScreen(),
+      title: "HTTP API",
+      home: HomeScreen(),
     );
   }
 }
