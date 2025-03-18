@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/home_screen.dart';
+import 'screens/todo_screen.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));
@@ -12,8 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "HTTP API",
-      home: HomeScreen(),
+      title: "SteadyBuilder's Todo App",
+      theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue)),
+      home: TodoScreen(),
     );
   }
 }
