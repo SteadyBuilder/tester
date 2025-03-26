@@ -1,26 +1,22 @@
-import 'package:dio/dio.dart';
-
-final dio = Dio(
-  BaseOptions(
-    baseUrl: 'https://jsonplaceholder.typicode.com',
-    connectTimeout: const Duration(seconds: 5),
-    receiveTimeout: const Duration(seconds: 5),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  ),
-);
-
-Future<void> fetchPost() async {
-  try {
-    final response =
-        await dio.get('https://jsonplaceholder.typicode.com/posts/1');
-    print('제목: ${response.data['title']}');
-  } catch (e) {
-    print('에러 발생: $e');
-  }
-}
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tester/screen/post_screen.dart';
 
 void main() {
-  fetchPost();
+  runApp(const ProviderScope(child: MyApp()));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Riverpod + Dio 실습',
+      theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo)),
+      home: PostScreen(),
+    );
+  }
 }
