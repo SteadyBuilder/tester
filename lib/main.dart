@@ -1,22 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/post_screen.dart';
+import 'package:dio/dio.dart';
 
-void main() {
-  runApp(ProviderScope(child: const MyApp()));
+final dio = Dio(
+  BaseOptions(
+    baseUrl: 'https://jsonplaceholder.typicode.com',
+    connectTimeout: const Duration(seconds: 5),
+    receiveTimeout: const Duration(seconds: 5),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  ),
+);
+
+Future<void> fetchPost() async {
+  try {
+    final response =
+        await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+    print('제목: ${response.data['title']}');
+  } catch (e) {
+    print('에러 발생: $e');
+  }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "SteadyBuilder's Flutter",
-      theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue)),
-      home: PostScreen(),
-    );
-  }
+void main() {
+  fetchPost();
 }
